@@ -2,6 +2,7 @@ package io.pranludi.crossfit.member.service;
 
 import io.pranludi.crossfit.member.domain.EnvironmentData;
 import io.pranludi.crossfit.member.domain.MemberEntity;
+import io.pranludi.crossfit.member.exception.ServerError;
 import io.pranludi.crossfit.member.repository.MemberRepository;
 import io.pranludi.crossfit.member.repository.dto.MemberDTO;
 import io.pranludi.crossfit.member.service.mapper.MemberMapper;
@@ -33,7 +34,8 @@ public class MemberService {
     // 회원 조회
     public Function<EnvironmentData, MemberEntity> findById() {
         return (EnvironmentData env) -> {
-            MemberDTO memberDTO = memberRepository.findById(env.id()).orElseThrow();
+            MemberDTO memberDTO = memberRepository.findById(env.id())
+                .orElseThrow(() -> ServerError.MEMBER_NOT_FOUND(env.id()));
             return memberMapper.toEntity(memberDTO);
         };
     }

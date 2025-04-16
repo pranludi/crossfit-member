@@ -4,8 +4,12 @@ import java.util.Arrays;
 
 public class ServerError extends RuntimeException {
 
-  public static final ServerError INVALID_AUTH_SERVER = new ServerError("인증 에러가 발생하였습니다. (20001)", 20001);
-//  public static final ServerError GENERAL_ERROR = new ServerError("에러가 발생하였습니다. (50000)", 50000);
+    public static final ServerError INVALID_AUTH_SERVER = new ServerError("인증 에러가 발생하였습니다. (20001)", 20001);
+    public static final ServerError GENERAL_ERROR = new ServerError("에러가 발생하였습니다. (50000)", 50000);
+
+    public static ServerError MEMBER_NOT_FOUND(String memberId) {
+        return new ServerError("회원(" + memberId + ")을 찾을 수 없습니다. (40000)", 40000);
+    }
 
     private String message;
     private int code;
