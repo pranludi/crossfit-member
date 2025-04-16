@@ -1,10 +1,15 @@
+app:
+  server:
+    type: MEMBER_SERVICE
+    id: member-service-1
+
 spring:
   application:
     name: member service
   datasource:
     hikari:
       driver-class-name: org.h2.Driver
-#      jdbc-url: 'jdbc:h2:mem:member'
+      #      jdbc-url: 'jdbc:h2:mem:member'
       jdbc-url: 'jdbc:h2:tcp://localhost/~/member'
       username: member
       password: password
@@ -22,3 +27,6 @@ spring:
   grpc:
     server:
       port: 8081
+
+jwt:
+  secret-key: "rYfed5F12iViHmbB7ZufrxIR6MNLG67+4+b6+DhqcRJuFVe7/KxhIb4necxKaCDN"

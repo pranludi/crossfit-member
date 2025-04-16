@@ -6,6 +6,7 @@ import io.pranludi.crossfit.member.domain.MemberEntity;
 import io.pranludi.crossfit.member.domain.MemberGrade;
 import io.pranludi.crossfit.member.grpc.interceptor.GrpcRequestInterceptor;
 import io.pranludi.crossfit.member.grpc.interceptor.GrpcResponseInterceptor;
+import io.pranludi.crossfit.member.grpc.interceptor.GrpcTokenInterceptor;
 import io.pranludi.crossfit.member.protobuf.GetMemberRequest;
 import io.pranludi.crossfit.member.protobuf.GetMemberResponse;
 import io.pranludi.crossfit.member.protobuf.MemberDTO;
@@ -18,7 +19,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import org.springframework.grpc.server.service.GrpcService;
 
-@GrpcService(interceptors = {GrpcRequestInterceptor.class, GrpcResponseInterceptor.class})
+@GrpcService(interceptors = {GrpcTokenInterceptor.class, GrpcRequestInterceptor.class, GrpcResponseInterceptor.class})
 public class MemberGrpcService extends MemberServiceImplBase {
 
     final MemberService memberService;
