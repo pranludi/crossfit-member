@@ -1,5 +1,6 @@
 package io.pranludi.crossfit.member.service;
 
+import io.pranludi.crossfit.member.adaptor.MemberProducer;
 import io.pranludi.crossfit.member.domain.EnvironmentData;
 import io.pranludi.crossfit.member.domain.MemberEntity;
 import io.pranludi.crossfit.member.exception.ServerError;
@@ -14,10 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     final MemberRepository memberRepository;
+    final MemberProducer MemberProducer;
     final MemberMapper memberMapper;
 
-    public MemberService(MemberRepository memberRepository, MemberMapper memberMapper) {
+    public MemberService(MemberRepository memberRepository, MemberProducer MemberProducer, MemberMapper memberMapper) {
         this.memberRepository = memberRepository;
+        this.MemberProducer = MemberProducer;
         this.memberMapper = memberMapper;
     }
 
@@ -27,7 +30,9 @@ public class MemberService {
         return (EnvironmentData env) -> {
             MemberDTO memberDTO = memberMapper.toDto(memberEntity);
             MemberDTO savedMember = memberRepository.save(memberDTO);
-            return memberMapper.toEntity(savedMember);
+            MemberEntity savedMemberEntity = memberMapper.toEntity(savedMember);
+            MemberProducer.sendNewMember(savedMemberEntity);
+            return savedMemberEntity;
         };
     }
 
