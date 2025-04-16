@@ -1,9 +1,10 @@
 package io.pranludi.crossfit.member.service;
 
 import io.pranludi.crossfit.member.domain.EnvironmentData;
-import io.pranludi.crossfit.member.repository.dto.MemberDTO;
-import io.pranludi.crossfit.member.repository.MemberRepository;
 import io.pranludi.crossfit.member.domain.MemberEntity;
+import io.pranludi.crossfit.member.repository.MemberRepository;
+import io.pranludi.crossfit.member.repository.dto.MemberDTO;
+import io.pranludi.crossfit.member.service.mapper.MemberMapper;
 import java.util.function.Function;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,26 +13,20 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     final MemberRepository memberRepository;
+    final MemberMapper memberMapper;
 
-    public MemberService(MemberRepository memberRepository) {
+    public MemberService(MemberRepository memberRepository, MemberMapper memberMapper) {
         this.memberRepository = memberRepository;
+        this.memberMapper = memberMapper;
     }
 
     // 회원 등록
     @Transactional
     public Function<EnvironmentData, MemberEntity> signUp(MemberEntity memberEntity) {
         return (EnvironmentData env) -> {
-            MemberDTO memberDTO = new MemberDTO(
-                env.id(),
-                memberEntity.password(),
-                memberEntity.name(),
-                memberEntity.email(),
-                memberEntity.phoneNumber(),
-                memberEntity.grade(),
-                memberEntity.lastPaidAt()
-            );
-            memberRepository.save(memberDTO);
-            return memberEntity;
+            MemberDTO memberDTO = memberMapper.toDto(memberEntity);
+            MemberDTO savedMember = memberRepository.save(memberDTO);
+            return memberMapper.toEntity(savedMember);
         };
     }
 
@@ -39,15 +34,7 @@ public class MemberService {
     public Function<EnvironmentData, MemberEntity> findById() {
         return (EnvironmentData env) -> {
             MemberDTO memberDTO = memberRepository.findById(env.id()).orElseThrow();
-            return new MemberEntity(
-                memberDTO.getId(),
-                memberDTO.getPassword(),
-                memberDTO.getName(),
-                memberDTO.getEmail(),
-                memberDTO.getPhoneNumber(),
-                memberDTO.getGrade(),
-                memberDTO.getLastPaidAt()
-            );
+            return memberMapper.toEntity(memberDTO);
         };
     }
 }
