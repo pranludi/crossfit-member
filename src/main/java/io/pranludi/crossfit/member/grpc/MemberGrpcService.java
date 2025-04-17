@@ -8,12 +8,12 @@ import io.pranludi.crossfit.member.grpc.interceptor.GrpcRequestInterceptor;
 import io.pranludi.crossfit.member.grpc.interceptor.GrpcResponseInterceptor;
 import io.pranludi.crossfit.member.grpc.interceptor.GrpcTokenInterceptor;
 import io.pranludi.crossfit.member.grpc.mapper.GrpcMapper;
-import io.pranludi.crossfit.member.protobuf.GetMemberRequest;
-import io.pranludi.crossfit.member.protobuf.GetMemberResponse;
-import io.pranludi.crossfit.member.protobuf.MemberServiceGrpc.MemberServiceImplBase;
-import io.pranludi.crossfit.member.protobuf.SignUpRequest;
-import io.pranludi.crossfit.member.protobuf.SignUpResponse;
 import io.pranludi.crossfit.member.service.MemberService;
+import io.pranludi.crossfit.protobuf.member.GetMemberRequest;
+import io.pranludi.crossfit.protobuf.member.GetMemberResponse;
+import io.pranludi.crossfit.protobuf.member.MemberServiceGrpc.MemberServiceImplBase;
+import io.pranludi.crossfit.protobuf.member.SignUpRequest;
+import io.pranludi.crossfit.protobuf.member.SignUpResponse;
 import java.time.LocalDateTime;
 import org.springframework.grpc.server.service.GrpcService;
 
