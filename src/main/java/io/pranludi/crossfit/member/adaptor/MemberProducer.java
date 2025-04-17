@@ -1,10 +1,8 @@
 package io.pranludi.crossfit.member.adaptor;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.pranludi.crossfit.member.domain.MemberEntity;
-import io.pranludi.crossfit.member.protobuf.MemberKafka;
-import org.apache.kafka.common.serialization.ByteArraySerializer;
+import io.pranludi.crossfit.protobuf.kafka.MemberKafka;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
