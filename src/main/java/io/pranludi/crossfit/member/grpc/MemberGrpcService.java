@@ -11,7 +11,9 @@ import io.pranludi.crossfit.member.grpc.mapper.GrpcMapper;
 import io.pranludi.crossfit.member.service.MemberService;
 import io.pranludi.crossfit.protobuf.member.GetMemberRequest;
 import io.pranludi.crossfit.protobuf.member.GetMemberResponse;
+import io.pranludi.crossfit.protobuf.member.MemberResult;
 import io.pranludi.crossfit.protobuf.member.MemberServiceGrpc.MemberServiceImplBase;
+import io.pranludi.crossfit.protobuf.member.ResultCode;
 import io.pranludi.crossfit.protobuf.member.SignUpRequest;
 import io.pranludi.crossfit.protobuf.member.SignUpResponse;
 import java.time.LocalDateTime;
@@ -43,7 +45,13 @@ public class MemberGrpcService extends MemberServiceImplBase {
 
         MemberEntity member = memberService.signUp(memberEntity).apply(env);
         SignUpResponse res = SignUpResponse.newBuilder()
-            .setMember(GrpcMapper.INSTANCE.memberEntityToProto(member))
+            .setCode(ResultCode.SUCCESS)
+            .setMessage("SUCCESS")
+            .setResult(
+                MemberResult.newBuilder()
+                    .setMember(GrpcMapper.INSTANCE.memberEntityToProto(member))
+                    .build()
+            )
             .build();
         resObserver.onNext(res);
         resObserver.onCompleted();
@@ -53,7 +61,13 @@ public class MemberGrpcService extends MemberServiceImplBase {
     public void getMember(GetMemberRequest req, StreamObserver<GetMemberResponse> resObserver) {
         MemberEntity member = memberService.findById().apply(makeEnvironment.make());
         GetMemberResponse res = GetMemberResponse.newBuilder()
-            .setMember(GrpcMapper.INSTANCE.memberEntityToProto(member))
+            .setCode(ResultCode.SUCCESS)
+            .setMessage("SUCCESS")
+            .setResult(
+                MemberResult.newBuilder()
+                    .setMember(GrpcMapper.INSTANCE.memberEntityToProto(member))
+                    .build()
+            )
             .build();
         resObserver.onNext(res);
         resObserver.onCompleted();
